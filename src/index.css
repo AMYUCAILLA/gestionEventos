@@ -1,0 +1,36 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+body {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  background-color: white;
+  color: #1f2937;
+
+}
+
+a {
+  color: #3b82f6; /* azul Tailwind por defecto */
+  text-decoration: none;
+  font-weight: 500;
+}
+a:hover {
+  color: #2563eb;
+}
+
+/* botones genéricos */
+button {
+  font-family: inherit;
+ 
+}

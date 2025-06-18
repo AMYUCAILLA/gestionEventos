@@ -1,0 +1,12 @@
+
+.home-container {
+  width: 100%;
+  text-align: center;
+}
+.home-container h1 {
+  margin-bottom: 0.5rem;
+}
+.home-container p {
+  margin: 0;
+}
+

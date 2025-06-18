@@ -1,0 +1,33 @@
+/* Reusar .modal-backdrop y .modal-content de EventForm */
+.contact-form .form-group {
+  margin-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+}
+.contact-form input,
+.contact-form select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.photo-preview {
+  margin-top: 0.5rem;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.error {
+  color: #d32f2f;
+  font-size: 0.875rem;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.form-actions button {
+  padding: 0.5rem 1rem;
+}
+
+

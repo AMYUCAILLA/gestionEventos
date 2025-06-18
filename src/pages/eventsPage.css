@@ -1,0 +1,127 @@
+/* src/pages/EventsPage.css */
+
+.events-page {
+  width: 100%;
+  overflow-x: auto; /* para pantallas pequeñas */
+}
+
+/* Header con título, búsqueda y agregar */
+.events-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap; /* para responsividad */
+  gap: 0.5rem;
+}
+
+/* Contenedor para acciones en header: búsqueda + botón */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Caja de búsqueda */
+.search-container {
+  position: relative;
+  /* Para tamaño fijo o flexible, ajusta width: */
+  width: 200px;
+}
+@media (max-width: 600px) {
+  /* En pantallas pequeñas, que ocupe más ancho */
+  .search-container {
+    width: 100%;
+  }
+}
+.search-input {
+  width: 100%;
+  padding: 0.4rem 0.5rem 0.4rem 2rem; /* espacio izquierdo para icono */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font: inherit;
+  box-sizing: border-box;
+}
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Ícono de búsqueda dentro de la caja */
+.search-icon {
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none; /* para que clic no interrumpa input */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón + Nuevo Evento en header */
+.events-header button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* Tabla de eventos */
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.events-table th,
+.events-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+.events-table th {
+  background-color: #f5f5f5;
+}
+.events-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+/* Para la celda de descripción, permitir truncar o ajustar wrap */
+.description-cell {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Celdas de acciones */
+.actions-cell button {
+  margin-right: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+/* Mensaje de "no hay eventos" */
+.events-table td[colspan] {
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Remueve o comenta la regla anterior de inline-block/horizontal scroll */
+
+/* En móvil, permitir scroll vertical dentro de un contenedor */
+@media (max-width: 800px) {
+  .table-container {
+    max-height: 60vh; /* ajusta según tu layout: 60% de la altura de la ventana */
+    overflow-y: auto;
+  }
+  /* Asegura que la tabla ocupe todo el ancho disponible */
+  .contacts-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* display table por defecto */
+  }
+  /* Opcional: permitir que celdas hagan wrap en varias líneas */
+  .contacts-table th,
+  .contacts-table td {
+    white-space: normal;
+  }
+}
+
