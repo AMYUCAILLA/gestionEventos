@@ -1,33 +1,60 @@
 
 .navbar {
-
-  background-color: var(--color-primary);
-  color: white;
+  display: flex;
+  align-items: center;             
+  justify-content: space-between;  
+  background: var(--color-primary);
+  color: #fff;
   padding: 0.5rem 1rem;
-  width: 100%;
   box-sizing: border-box;
+  width: 100%;
 }
 
+/* selector de idioma */
+.navbar select {
+  background: transparent;
+  color:1px solid #0fd555;
+  border: 1px solid #4f4a5f;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  min-width: 120px;                 
+}
+
+/* marca (no ocupa ancho completo) */
 .navbar-brand {
   font-size: 1.25rem;
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  margin-right: 1rem;           
 }
+
+/* lista de enlaces al centro */
 .navbar-links {
-  list-style: none;
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 1rem;
+  list-style: none;
   margin: 0;
   padding: 0;
+  flex: 1;                        
+  justify-content: center;
+  align-items: center;
 }
+
 .navbar-links a {
-  color: white;
+  color: #fff;
   text-decoration: none;
 }
 .navbar-links a.active {
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid #fff;
 }
+
+.speak-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-left: .35rem;
+  padding: 0;
+}
+.speak-btn:hover { opacity: .75; }
+
+

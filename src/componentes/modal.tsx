@@ -1,37 +1,32 @@
-
-import  { useEffect, useRef } from 'react';
-import type { ReactNode } from 'react';
-import './Modal.css';
+import { useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
+import './Modal.css'
 
 interface Props {
-  title: string;
-  onClose: () => void;
-  children: ReactNode;
+  title: string     // La prop sigue llegando traducida desde quien llama
+  onClose: () => void
+  children: ReactNode
 }
 
 const Modal: React.FC<Props> = ({ title, onClose, children }) => {
-  const backdropRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation()
+  const backdropRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [onClose]);
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [onClose])
 
   const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === backdropRef.current) {
-      onClose();
-    }
-  };
+    if (e.target === backdropRef.current) onClose()
+  }
 
-  useEffect(() => {
-    contentRef.current?.focus();
-  }, []);
+  useEffect(() => contentRef.current?.focus(), [])
 
   return (
     <div
@@ -45,9 +40,11 @@ const Modal: React.FC<Props> = ({ title, onClose, children }) => {
       <div className="modal-content" ref={contentRef} tabIndex={-1}>
         <h3 id="modal-title">{title}</h3>
         {children}
+        {/* Ejemplo de botón de cierre traducido */}
+        <button onClick={onClose}>{t('modal.close')}</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal

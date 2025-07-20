@@ -1,40 +1,38 @@
-/* src/styles/global.css */
 html, body, #root {
   height: 100%;
-  margin: 0;
+  margin: 0;        /* elimina margen de 8 px del user‑agent */
   padding: 0;
 }
+
 :root {
   --color-primary: #1976d2;
   --color-primary-light: #63a4ff;
   --color-error: #d32f2f;
   --font-family: Arial, sans-serif;
 }
+
 body {
-  margin: 0;
   font-family: var(--font-family);
   line-height: 1.5;
-  background-color: #f9f9f9;
+  background: #f9f9f9;
 }
-h1, h2, h3, h4 {
-  margin: 0.5rem 0;
-}
+
+h1, h2, h3, h4 { margin: 0.5rem 0; }
+
+/* botones genéricos */
 button {
-  background-color: var(--color-primary);
-  color: white;
+  background: var(--color-primary);
+  color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font: inherit;
   padding: 0.5rem 1rem;
 }
-button:hover {
-  background-color: var(--color-primary-light);
-}
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+button:hover    { background: var(--color-primary-light); }
+button:disabled { opacity: .6; cursor: not-allowed; }
+
+/* campos */
 input, select, textarea {
   font: inherit;
   padding: 0.5rem;
@@ -42,32 +40,31 @@ input, select, textarea {
   border-radius: 4px;
   box-sizing: border-box;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  overflow-x: auto;
-}
+
+/* tablas */
+table { width: 100%; border-collapse: collapse; }
 th, td {
   border: 1px solid #ddd;
   padding: 0.5rem;
   text-align: left;
 }
-/* Ajustes para móvil */
+
+/* móvil */
 @media (max-width: 600px) {
-  .events-table, .locations-table, .contacts-table {
-    font-size: 0.875rem;
-  }
-  .event-form input, .event-form select, .event-form textarea,
-  .location-form input, .contact-form input, .contact-form select {
-    width: 100%;
-  }
-}
-/* Wrapper para páginas de lista (no Inicio) */
-.content-wrapper {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  width: 100%;
-  box-sizing: border-box;
+  .events-table, .locations-table, .contacts-table { font-size: 0.875rem; }
+  .event-form  input,
+  .event-form  select,
+  .event-form  textarea,
+  .location-form input,
+  .contact-form input,
+  .contact-form select { width: 100%; }
 }
 
+/* wrapper opcional para páginas de lista */
+.content-wrapper {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
+}

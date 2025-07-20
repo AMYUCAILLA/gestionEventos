@@ -31,3 +31,13 @@
 }
 
 
+/*  ícono de lectura  -------------------------------------------------- */
+.speak-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;     /* tamaño del altavoz */
+  cursor: pointer;
+  margin-left: .35rem;
+  padding: 0;
+}
+.speak-btn:hover { opacity: .75; }

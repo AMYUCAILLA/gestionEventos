@@ -1,0 +1,155 @@
+{
+  "common": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "create": "Create",
+    "cancel": "Cancel",
+    "saveChanges": "Save changes"
+  },
+
+  "navbar": {
+    "brand": "Event Manager",
+    "home": "Home",
+    "events": "Events",
+    "locations": "Locations",
+    "contacts": "Contacts",
+    "help": "Help"
+  },
+
+  "home": {
+    "welcome": "Welcome to the event‑management system",
+    "hint": "Use the menu to navigate through Events, Locations and Contacts."
+  },
+
+  "event": {
+    "title": "Events",
+    "new": "+ New Event",
+    "searchPlaceholder": "Search by title or guest...",
+    "confirmDelete": "Delete this event?",
+    "noResults": "No events match the search.",
+    "empty": "No events registered.",
+    "reminderMinutes": "{{n}} min before",
+    "recurrence": { "none": "None", "daily": "Daily", "weekly": "Weekly", "monthly": "Monthly" },
+    "columns": {
+      "title": "Title",
+      "invited": "Guests",
+      "date": "Date",
+      "time": "Time",
+      "timezone": "Time Zone",
+      "description": "Description",
+      "recurrence": "Recurrence",
+      "reminder": "Reminder",
+      "category": "Category",
+      "location": "Location",
+      "actions": "Actions"
+    },
+    "form": {
+      "newTitle": "New Event",
+      "editTitle": "Edit Event",
+      "title": "Title",
+      "invited": "Guests (comma‑separated)",
+      "invitedPlaceholder": "john@ex.com, mary@ex.com",
+      "date": "Date",
+      "time": "Time",
+      "timezone": "Time Zone",
+      "description": "Description",
+      "recurrence": "Recurrence",
+      "reminder": "Reminder (minutes before)",
+      "category": "Category",
+      "categoryPlaceholder": "e.g. Conference, Workshop…",
+      "location": "Location",
+      "locationPlaceholder": "-- Select location --",
+      "create": "Create Event",
+      "errors": {
+        "title": "Title is required.",
+        "date": "Date is required.",
+        "time": "Time is required.",
+        "reminder": "Must be ≥ 0."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Contacts",
+    "new": "+ New Contact",
+    "searchPlaceholder": "Search by name, ID, email or phone...",
+    "confirmDelete": "Delete contact?",
+    "noResults": "No contacts match the search.",
+    "empty": "No contacts.",
+    "columns": {
+      "photo": "Photo",
+      "salutation": "Greeting",
+      "fullName": "Full Name",
+      "id": "ID",
+      "email": "Email",
+      "phone": "Phone",
+      "actions": "Actions"
+    },
+    "salutations": { "Sr.": "Mr.", "Sra.": "Mrs.", "Srta.": "Miss", "Dr.": "Dr.", "Dra.": "Dr.", "Ing.": "Eng.", "Prof.": "Prof.", "Otros": "Other" },
+    "form": {
+      "newTitle": "New Contact",
+      "editTitle": "Edit Contact",
+      "salutation": "Greeting",
+      "fullName": "Full Name",
+      "idNumber": "Identification Number",
+      "email": "Email",
+      "phone": "Phone",
+      "photo": "Photo",
+      "errors": {
+        "fullName": "Name is required.",
+        "idNumber": "ID number is required.",
+        "emailRequired": "Email is required.",
+        "emailFormat": "Invalid email format.",
+        "phone": "Phone is required."
+      }
+    }
+  },
+
+
+
+
+
+
+  "location": {
+    "title": "Locations",
+    "new": "+ New Location",
+    "searchPlaceholder": "Search by title, address, lat/lon...",
+    "confirmDelete": "Delete location?",
+    "noResults": "No locations match the search.",
+    "empty": "No locations.",
+    "columns": {
+      "title": "Title",
+      "address": "Address",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "actions": "Actions"
+    },
+    "form": {
+      "newTitle": "New Location",
+      "editTitle": "Edit Location",
+      "title1": "Title1",
+     "title": "Title",
+      "address": "Address",
+      "latitude": "Latitude",
+      "longitude": "Longitude"
+    },
+    "errors": {
+      "title": "Title is required.",
+      "address": "Address is required.",
+      "latitude": "Must be numeric.",
+      "longitude": "Must be numeric."
+    }
+  },
+
+
+  "help": {
+    "title": "Help",
+    "description": "This video shows how to use the app",
+    "instructions": "Use the controls to pause or seek",
+    "step1": "Choose a section from the top menu.",
+    "step2": "Click “+ New” to add records.",
+    "step3": "Use the speech button to listen to the UI.",
+    "back": "Back to home"
+  }
+}

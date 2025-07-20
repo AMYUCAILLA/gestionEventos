@@ -1,59 +1,74 @@
-import React, { useState, FormEvent } from 'react';
-import { LocationItem } from '../types';
-import { useData } from '../context/dataContext';
-import { v4 as uuidv4 } from 'uuid';
-import './LocationForm.css';
+import React, { useState, FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
+import { LocationItem } from '../types'
+import { useData } from '../context/dataContext'
+import { v4 as uuidv4 } from 'uuid'
+import './LocationForm.css'
 
 interface Props {
-  existing?: LocationItem;
-  onClose: () => void;
+  existing?: LocationItem
+  onClose: () => void
 }
 
 const LocationForm: React.FC<Props> = ({ existing, onClose }) => {
-  const { addLocation, updateLocation } = useData();
-  // Mantener estado como string para inputs, luego parsear a número
-  const [title, setTitle] = useState(existing?.title || '');
-  const [address, setAddress] = useState(existing?.address || '');
-  const [latitude, setLatitude] = useState(existing ? String(existing.latitude) : '');
-  const [longitude, setLongitude] = useState(existing ? String(existing.longitude) : '');
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { t } = useTranslation()
+  const { addLocation, updateLocation } = useData()
 
+  // mantener estado como string para inputs numéricos
+  const [title, setTitle] = useState(existing?.title ?? '')
+  const [address, setAddress] = useState(existing?.address ?? '')
+  const [latitude, setLatitude] = useState(existing ? String(existing.latitude) : '')
+  const [longitude, setLongitude] = useState(existing ? String(existing.longitude) : '')
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
+  /* ── validación ───────────────────────────── */
   const validate = () => {
-    const errs: typeof errors = {};
-    if (!title.trim()) errs.title = 'Título es requerido.';
-    if (!address.trim()) errs.address = 'Dirección es requerida.';
-    // validar lat/lon numéricos si no vacíos
-    if (latitude.trim() !== '' && isNaN(Number(latitude))) errs.latitude = 'Debe ser numérico.';
-    if (longitude.trim() !== '' && isNaN(Number(longitude))) errs.longitude = 'Debe ser numérico.';
-    return errs;
-  };
+    const e: Record<string, string> = {}
+    if (!title.trim()) e.title = t('location.errors.title')
+    if (!address.trim()) e.address = t('location.errors.address')
+    if (latitude.trim() && isNaN(Number(latitude)))
+      e.latitude = t('location.errors.latitude')
+    if (longitude.trim() && isNaN(Number(longitude)))
+      e.longitude = t('location.errors.longitude')
+    return e
+  }
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const v = validate();
-    if (Object.keys(v).length > 0) {
-      setErrors(v);
-      return;
+  /* ── submit ───────────────────────────────── */
+  const handleSubmit = (ev: FormEvent) => {
+    ev.preventDefault()
+    const v = validate()
+    if (Object.keys(v).length) {
+      setErrors(v)
+      return
     }
     const item: LocationItem = {
-      id: existing?.id || uuidv4(),
+      id: existing?.id ?? uuidv4(),
       title: title.trim(),
       address: address.trim(),
       latitude: latitude.trim() === '' ? 0 : Number(latitude.trim()),
       longitude: longitude.trim() === '' ? 0 : Number(longitude.trim()),
-    };
-    if (existing) updateLocation(item);
-    else addLocation(item);
-    onClose();
-  };
+    }
+    existing ? updateLocation(item) : addLocation(item)
+    onClose()
+  }
 
+  /* ── UI ───────────────────────────────────── */
   return (
     <div className="modal-backdrop">
-      <div className="modal-content" role="dialog" aria-modal="true" aria-labelledby="loc-form-title">
-        <h3 id="loc-form-title">{existing ? 'Editar Ubicación' : 'Nueva Ubicación'}</h3>
+      <div
+        className="modal-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="loc-form-title"
+      >
+        <h3 id="loc-form-title">
+          {existing ? t('location.form.editTitle') : t('location.form.newTitle')}
+        </h3>
+
         <form onSubmit={handleSubmit} className="location-form">
+          {/* título */}
           <div className="form-group">
-            <label htmlFor="loc-title">Título *</label>
+            <label htmlFor="loc-title">{t('location.form.title')} *</label>
             <input
               id="loc-title"
               type="text"
@@ -64,8 +79,10 @@ const LocationForm: React.FC<Props> = ({ existing, onClose }) => {
             />
             {errors.title && <span className="error">{errors.title}</span>}
           </div>
+
+          {/* dirección */}
           <div className="form-group">
-            <label htmlFor="loc-address">Dirección *</label>
+            <label htmlFor="loc-address">{t('location.form.address')} *</label>
             <input
               id="loc-address"
               type="text"
@@ -75,10 +92,12 @@ const LocationForm: React.FC<Props> = ({ existing, onClose }) => {
             />
             {errors.address && <span className="error">{errors.address}</span>}
           </div>
+
+          {/* latitud */}
           <div className="form-group">
-            <label htmlFor="loc-latitude">Latitud</label>
+            <label htmlFor="loc-lat">{t('location.form.latitude')}</label>
             <input
-              id="loc-latitude"
+              id="loc-lat"
               type="text"
               value={latitude}
               onChange={e => setLatitude(e.target.value)}
@@ -86,10 +105,12 @@ const LocationForm: React.FC<Props> = ({ existing, onClose }) => {
             />
             {errors.latitude && <span className="error">{errors.latitude}</span>}
           </div>
+
+          {/* longitud */}
           <div className="form-group">
-            <label htmlFor="loc-longitude">Longitud</label>
+            <label htmlFor="loc-lon">{t('location.form.longitude')}</label>
             <input
-              id="loc-longitude"
+              id="loc-lon"
               type="text"
               value={longitude}
               onChange={e => setLongitude(e.target.value)}
@@ -97,14 +118,20 @@ const LocationForm: React.FC<Props> = ({ existing, onClose }) => {
             />
             {errors.longitude && <span className="error">{errors.longitude}</span>}
           </div>
+
+          {/* botones */}
           <div className="form-actions">
-            <button type="submit">{existing ? 'Guardar' : 'Crear'}</button>
-            <button type="button" onClick={onClose}>Cancelar</button>
+            <button type="submit">
+              {existing ? t('common.save') : t('common.create')}
+            </button>
+            <button type="button" onClick={onClose}>
+              {t('common.cancel')}
+            </button>
           </div>
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LocationForm;
+export default LocationForm

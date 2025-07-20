@@ -1,0 +1,159 @@
+{
+  "common": {
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "save": "Guardar",
+    "create": "Crear",
+    "cancel": "Cancelar",
+    "saveChanges": "Guardar cambios"
+  },
+
+  "navbar": {
+    "brand": "Gestión Eventos",
+    "home": "Inicio",
+    "events": "Eventos",
+    "locations": "Ubicaciones",
+    "contacts": "Contactos",
+    "help": "Ayuda"
+  },
+
+  "home": {
+    "welcome": "Bienvenido al sistema de gestión de eventos",
+    "hint": "Usa el menú para navegar entre Eventos, Ubicaciones y Contactos."
+  },
+
+  "event": {
+    "title": "Eventos",
+    "new": "+ Nuevo Evento",
+    "searchPlaceholder": "Buscar por título o invitado...",
+    "confirmDelete": "¿Eliminar evento?",
+    "noResults": "No hay eventos que coincidan con la búsqueda.",
+    "empty": "No hay eventos registrados.",
+    "reminderMinutes": "{{n}} min antes",
+    "recurrence": { "none": "Ninguna", "daily": "Diaria", "weekly": "Semanal", "monthly": "Mensual" },
+    "columns": {
+      "title": "Título",
+      "invited": "Invitados",
+      "date": "Fecha",
+      "time": "Hora",
+      "timezone": "Zona Horaria",
+      "description": "Descripción",
+      "recurrence": "Repetición",
+      "reminder": "Recordatorio",
+      "category": "Clasificación",
+      "location": "Lugar",
+      "actions": "Acciones"
+    },
+    "form": {
+      "newTitle": "Nuevo Evento",
+      "editTitle": "Editar Evento",
+      "title": "Título",
+      "invited": "Invitados (separados por comas)",
+      "invitedPlaceholder": "juan@ej.com, maria@ej.com",
+      "date": "Fecha",
+      "time": "Hora",
+      "timezone": "Zona Horaria",
+      "description": "Descripción",
+      "recurrence": "Repetición",
+      "reminder": "Recordatorio (minutos antes)",
+      "category": "Clasificación",
+      "categoryPlaceholder": "Ej. Conferencia, Taller...",
+      "location": "Lugar",
+      "locationPlaceholder": "-- Seleccionar ubicación --",
+      "create": "Crear Evento",
+      "errors": {
+        "title": "Título es requerido.",
+        "date": "Fecha es requerida.",
+        "time": "Hora es requerida.",
+        "reminder": "Debe ser mayor o igual que cero."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Contactos",
+    "new": "+ Nuevo Contacto",
+    "searchPlaceholder": "Buscar por nombre, ID, email o teléfono...",
+    "confirmDelete": "¿Eliminar contacto?",
+    "noResults": "No hay contactos que coincidan con la búsqueda.",
+    "empty": "No hay contactos.",
+    "columns": {
+      "photo": "Foto",
+      "salutation": "Saludo",
+      "fullName": "Nombre Completo",
+      "id": "ID",
+      "email": "Email",
+      "phone": "Teléfono",
+      "actions": "Acciones"
+    },
+    "salutations": { "Sr.": "Sr.", "Sra.": "Sra.", "Srta.": "Srta.", "Dr.": "Dr.", "Dra.": "Dra.", "Ing.": "Ing.", "Prof.": "Prof.", "Otros": "Otros" },
+    "form": {
+      "newTitle": "Nuevo Contacto",
+      "editTitle": "Editar Contacto",
+      "salutation": "Saludo",
+      "fullName": "Nombre Completo",
+      "idNumber": "Número de Identificación",
+      "email": "Correo Electrónico",
+      "phone": "Teléfono",
+      "photo": "Fotografía",
+      "errors": {
+        "fullName": "Nombre es requerido.",
+        "idNumber": "Número de identificación es requerido.",
+        "emailRequired": "Correo es requerido.",
+        "emailFormat": "Formato de email inválido.",
+        "phone": "Teléfono es requerido."
+      }
+    }
+  },
+
+
+
+  
+  
+
+
+
+  "location": {
+    "title": "Ubicaciones",
+    "new": "+ Nueva Ubicación",
+    "searchPlaceholder": "Buscar por título, dirección, lat/lon...",
+    "confirmDelete": "¿Eliminar ubicación?",
+    "noResults": "No hay ubicaciones que coincidan con la búsqueda.",
+    "empty": "No hay ubicaciones.",
+    "columns": {
+      "title": "Título",
+      "address": "Dirección",
+      "latitude": "Latitud",
+      "longitude": "Longitud",
+      "actions": "Acciones"
+    },
+    "form": {
+      "newTitle": "Nueva Ubicación",
+      "editTitle": "Editar Ubicación",
+      "title": "Título",
+      "address": "Dirección",
+      "latitude": "Latitud",
+      "longitude": "Longitud"
+    },
+    "errors": {
+      "title": "Título es requerido.",
+      "address": "Dirección es requerida.",
+      "latitude": "Debe ser numérico.",
+      "longitude": "Debe ser numérico."
+    }
+  },
+
+    "help": {
+    "title1": "Ayuda General",
+    "title": "Ayuda en Video",
+    "description": "Este vídeo explica cómo usar la aplicación",
+    "instructions": "Usa los controles para pausar o avanzar",
+    "step1": "Selecciona una sección con el menú superior.",
+    "step2": "Haz clic en “+ Nuevo” para crear registros.",
+    "step3": "Usa el botón de voz para escuchar la interfaz.",
+    "back": "Volver al inicio"
+  }
+  
+}
+
+

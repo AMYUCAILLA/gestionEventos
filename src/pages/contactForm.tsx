@@ -1,111 +1,148 @@
-
-import  { useState, FormEvent, useEffect } from 'react';
-
-import { ContactItem } from '../types';
-import { useData } from '../context/dataContext';
-import { v4 as uuidv4 } from 'uuid';
-import './ContactForm.css';
+import { useState, FormEvent, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ContactItem } from '../types'
+import { useData } from '../context/dataContext'
+import { useSpeech } from '../context/speechContext'
+import SpeakButton from '../componentes/SpeakButton'
+import { v4 as uuidv4 } from 'uuid'
+import './ContactForm.css'
 
 interface Props {
-  existing?: ContactItem;
-  onClose: () => void;
+  existing?: ContactItem
+  onClose: () => void
 }
 
-const salutations = ['Sr.', 'Sra.', 'Srta.', 'Dr.', 'Dra.', 'Ing.', 'Prof.', 'Otros'];
+const salutations = ['Sr.', 'Sra.', 'Srta.', 'Dr.', 'Dra.', 'Ing.', 'Prof.', 'Otros']
 
 const ContactForm: React.FC<Props> = ({ existing, onClose }) => {
-  const { addContact, updateContact } = useData();
-  const [salutation, setSalutation] = useState(existing?.salutation || salutations[0]);
-  const [fullName, setFullName] = useState(existing?.fullName || '');
-  const [idNumber, setIdNumber] = useState(existing?.idNumber || '');
-  const [email, setEmail] = useState(existing?.email || '');
-  const [phone, setPhone] = useState(existing?.phone || '');
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [photoUrl, setPhotoUrl] = useState<string | null>(existing?.photoUrl || null);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { t } = useTranslation()
+  const { speak } = useSpeech()
+  const { addContact, updateContact } = useData()
 
+  /* ------- estado ------- */
+  const [salutation, setSalutation] = useState(existing?.salutation ?? salutations[0])
+  const [fullName, setFullName]   = useState(existing?.fullName   ?? '')
+  const [idNumber, setIdNumber]   = useState(existing?.idNumber   ?? '')
+  const [email,    setEmail]      = useState(existing?.email      ?? '')
+  const [phone,    setPhone]      = useState(existing?.phone      ?? '')
+  const [photoFile, setPhotoFile] = useState<File | null>(null)
+  const [photoUrl,  setPhotoUrl]  = useState<string | null>(existing?.photoUrl ?? null)
+  const [errors,    setErrors]    = useState<Record<string, string>>({})
+
+  /* vista previa de foto */
   useEffect(() => {
-    if (photoFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string') setPhotoUrl(reader.result);
-      };
-      reader.readAsDataURL(photoFile);
-    }
-  }, [photoFile]);
+    if (!photoFile) return
+    const r = new FileReader()
+    r.onload = () => typeof r.result === 'string' && setPhotoUrl(r.result)
+    r.readAsDataURL(photoFile)
+  }, [photoFile])
 
+  /* validación */
   const validate = () => {
-    const errs: typeof errors = {};
-    if (!fullName.trim()) errs.fullName = 'Nombre es requerido.';
-    if (!idNumber.trim()) errs.idNumber = 'Número de identificación es requerido.';
-    if (!email.trim()) errs.email = 'Correo es requerido.';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = 'Formato de email inválido.';
-    if (!phone.trim()) errs.phone = 'Teléfono es requerido.';
-    // opcional: validación más estricta de teléfono
-    return errs;
-  };
+    const e: Record<string, string> = {}
+    if (!fullName.trim()) e.fullName = t('contact.form.errors.fullName')
+    if (!idNumber.trim()) e.idNumber = t('contact.form.errors.idNumber')
+    if (!email.trim())   e.email    = t('contact.form.errors.emailRequired')
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      e.email = t('contact.form.errors.emailFormat')
+    if (!phone.trim())   e.phone    = t('contact.form.errors.phone')
+    return e
+  }
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const v = validate();
-    if (Object.keys(v).length > 0) {
-      setErrors(v);
-      return;
+  /* submit */
+  const handleSubmit = (ev: FormEvent) => {
+    ev.preventDefault()
+    const v = validate()
+    if (Object.keys(v).length) {
+      setErrors(v)
+      speak(Object.values(v)[0])           // lee el primer error
+      return
     }
+
     const item: ContactItem = {
-      id: existing?.id || uuidv4(),
+      id: existing?.id ?? uuidv4(),
       salutation,
       fullName: fullName.trim(),
       idNumber: idNumber.trim(),
       email: email.trim(),
       phone: phone.trim(),
       photoUrl,
-    };
-    if (existing) updateContact(item);
-    else addContact(item);
-    onClose();
-  };
+    }
+    existing ? updateContact(item) : addContact(item)
+    speak(existing ? t('common.saveChanges') : t('common.create'))
+    onClose()
+  }
 
+  /* ----------------------- UI ----------------------- */
   return (
     <div className="modal-backdrop">
       <div className="modal-content" role="dialog" aria-modal="true" aria-labelledby="contact-form-title">
-        <h3 id="contact-form-title">{existing ? 'Editar Contacto' : 'Nuevo Contacto'}</h3>
+        <h3 id="contact-form-title">
+          {existing ? t('contact.form.editTitle') : t('contact.form.newTitle')}
+          <button type="button" className="speak-btn">
+            <SpeakButton text={t('contact.form.newTitleHelp', { defaultValue: t('contact.form.newTitle') })} />
+          </button>
+        </h3>
+
         <form onSubmit={handleSubmit} className="contact-form">
+
+          {/* Saludo */}
           <div className="form-group">
-            <label htmlFor="salutation">Saludo</label>
-            <select
-              id="salutation"
-              value={salutation}
-              onChange={e => setSalutation(e.target.value)}
-            >
-              {salutations.map(s => <option key={s} value={s}>{s}</option>)}
+            <label htmlFor="salutation">
+              {t('contact.form.salutation')}
+              <button type="button" className="speak-btn">
+                <SpeakButton text={t('contact.form.salutationHelp', { defaultValue: t('contact.form.salutation') })} />
+              </button>
+            </label>
+            <select id="salutation" value={salutation} onChange={e => setSalutation(e.target.value)}>
+              {salutations.map(s => (
+                <option key={s} value={s}>{t(`contact.salutations.${s}`)}</option>
+              ))}
             </select>
           </div>
+
+          {/* Nombre */}
           <div className="form-group">
-            <label htmlFor="fullName">Nombre Completo *</label>
+            <label htmlFor="fullName">
+              {t('contact.form.fullName')} *
+              <button type="button" className="speak-btn">
+                <SpeakButton text={t('contact.form.fullNameHelp', { defaultValue: t('contact.form.fullName') })} />
+              </button>
+            </label>
             <input
               id="fullName"
-              type="text"
               value={fullName}
               onChange={e => setFullName(e.target.value)}
-              autoFocus
               aria-invalid={!!errors.fullName}
             />
             {errors.fullName && <span className="error">{errors.fullName}</span>}
           </div>
+
+          {/* ID */}
           <div className="form-group">
-            <label htmlFor="idNumber">Número de Identificación *</label>
+            <label htmlFor="idNumber">
+              {t('contact.form.idNumber')} *
+              <button type="button" className="speak-btn">
+                <SpeakButton text={t('contact.form.idHelp', { defaultValue: t('contact.form.idNumber') })} />
+              </button>
+            </label>
             <input
               id="idNumber"
-              type="text"
               value={idNumber}
               onChange={e => setIdNumber(e.target.value)}
               aria-invalid={!!errors.idNumber}
             />
             {errors.idNumber && <span className="error">{errors.idNumber}</span>}
           </div>
+
+          {/* Email */}
           <div className="form-group">
-            <label htmlFor="email">Correo Electrónico *</label>
+            <label htmlFor="email">
+              {t('contact.form.email')} *
+              <button type="button" className="speak-btn">
+                <SpeakButton text={t('contact.form.emailHelp', { defaultValue: t('contact.form.email') })} />
+              </button>
+            </label>
             <input
               id="email"
               type="email"
@@ -115,41 +152,54 @@ const ContactForm: React.FC<Props> = ({ existing, onClose }) => {
             />
             {errors.email && <span className="error">{errors.email}</span>}
           </div>
+
+          {/* Teléfono */}
           <div className="form-group">
-            <label htmlFor="phone">Teléfono *</label>
+            <label htmlFor="phone">
+              {t('contact.form.phone')} *
+              <button type="button" className="speak-btn">
+                <SpeakButton text={t('contact.form.phoneHelp', { defaultValue: t('contact.form.phone') })} />
+              </button>
+            </label>
             <input
               id="phone"
-              type="tel"
               value={phone}
               onChange={e => setPhone(e.target.value)}
               aria-invalid={!!errors.phone}
             />
             {errors.phone && <span className="error">{errors.phone}</span>}
           </div>
+
+          {/* Foto */}
           <div className="form-group">
-            <label htmlFor="photo">Fotografía</label>
+            <label htmlFor="photo">
+              {t('contact.form.photo')}
+              <button type="button" className="speak-btn">
+                <SpeakButton text={t('contact.form.photoHelp', { defaultValue: t('contact.form.photo') })} />
+              </button>
+            </label>
             <input
               id="photo"
               type="file"
               accept="image/*"
-              onChange={e => {
-                if (e.target.files && e.target.files[0]) setPhotoFile(e.target.files[0]);
-              }}
+              onChange={e =>
+                e.target.files && setPhotoFile(e.target.files[0])
+              }
             />
-            {photoUrl && (
-              <img src={photoUrl} alt="Preview" className="photo-preview" />
-            )}
+            {photoUrl && <img src={photoUrl} alt="preview" className="photo-preview" />}
           </div>
+
+          {/* Botones */}
           <div className="form-actions">
-            <button type="submit">{existing ? 'Guardar' : 'Crear'}</button>
-            <button type="button" onClick={onClose}>Cancelar</button>
+            <button type="submit">
+              {existing ? t('common.save') : t('common.create')}
+            </button>
+            <button type="button" onClick={onClose}>{t('common.cancel')}</button>
           </div>
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ContactForm;
-
-
+export default ContactForm
