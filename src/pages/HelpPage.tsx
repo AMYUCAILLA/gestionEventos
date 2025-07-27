@@ -1,72 +1,62 @@
 // src/pages/HelpPage.tsx
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+
 import { useSpeech } from '../context/speechContext'
 import SpeakButton from '../componentes/SpeakButton'
-import { Link } from 'react-router-dom'
-import ReactPlayer from 'react-player'
+
 import './HelpPage.css'
 
 const HelpPage: React.FC = () => {
-  const { t } = useTranslation()
+  const { t }     = useTranslation()
   const { speak } = useSpeech()
 
-  /** ▶️ Explicación completa para el botón de voz */
-  const general =
-    `${t('help.step1')}. ${t('help.step2')}. ${t('help.step3')}`
+  /* textos para TTS */
+  const general  = `${t('help.step1')}. ${t('help.step2')}. ${t('help.step3')}`
+  const sentence = `${t('help.description')}. ${t('help.instructions')}`
 
-    const sentence =
-    `${t('help.description')}. ${t('help.instructions')}`
-
-
-  /* ------------------------------------------------------------------ */
-  /*   Hablar “Ayuda” / “Help” solo la primera vez que se monta          */
-  /* ------------------------------------------------------------------ */
-  const spokenOnce = useRef(false)
+  /* decir “Ayuda / Help” sólo la 1.ª vez */
+  const once = useRef(false)
   useEffect(() => {
-    if (!spokenOnce.current) {
-      speak(t('navbar.help'))   // dice “Ayuda” o “Help”
-      spokenOnce.current = true
+    if (!once.current) {
+      speak(t('navbar.help'))
+      once.current = true
     }
-  }, [speak, t])               // ← no causa bucles porque la ref corta repeticiones
+  }, [speak, t])
 
   return (
     <section className="help-container">
-     
- <h2>
+      {/* Pasos generales */}
+      <h2>
         {t('help.title1')}
         <SpeakButton text={general} />
       </h2>
-      {/* Guion / transcripción */}
+
       <ol className="steps">
         <li>{t('help.step1')}</li>
         <li>{t('help.step2')}</li>
         <li>{t('help.step3')}</li>
-        {/* …añade más pasos si lo necesitas */}
       </ol>
 
-
-
- <h2>
+      {/* Vídeo + descripción */}
+      <h2>
         {t('help.title')}
         <SpeakButton text={sentence} />
       </h2>
 
-      {/* Vídeo paso a paso */}
       <div className="player-wrapper">
-        <ReactPlayer
-          url="/assets/help.mp4"      /* o un enlace de YouTube/Vimeo            */
+        {/* ▶️ vídeo servido desde /public */}
+        <video
+          src="/tutorialEventos.mp4"
           controls
           width="100%"
-          height="100%"
+          style={{ maxWidth: 720 }}
         />
       </div>
 
-
-      {/* Botón volver al inicio */}
-      <Link to="/" className="back-btn">
-        {t('help.back')}
-      </Link>
+      {/* volver */}
+      <Link to="/" className="back-btn">{t('help.back')}</Link>
     </section>
   )
 }
